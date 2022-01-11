@@ -14,11 +14,11 @@ items = []
 
 class Item(Resource):
     parser = reqparse.RequestParser()
-        parser.add_argument(
-            'price',
-            type=float,
-            required=True,
-            help="This field cannot be left blank!"
+    parser.add_argument(
+        'price',
+        type=float,
+        required=True,
+        help="This field cannot be left blank!"
     )
     
     @jwt_required()
