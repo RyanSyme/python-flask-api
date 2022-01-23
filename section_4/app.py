@@ -5,7 +5,7 @@ from flask_jwt import JWT, jwt_required
 from security import authenticate, identity
 
 app = Flask(__name__)
-app.secret_key = "ryan"
+app.secret_key = 'SECRET_KEY'
 api = Api(app)
 
 jwt = JWT(app, authenticate, identity)
@@ -14,11 +14,11 @@ items = []
 
 class Item(Resource):
     parser = reqparse.RequestParser()
-        parser.add_argument(
-            'price',
-            type=float,
-            required=True,
-            help="This field cannot be left blank!"
+    parser.add_argument(
+        'price',
+        type=float,
+        required=True,
+        help='This field is bankety blank'
     )
     
     @jwt_required()
@@ -27,10 +27,12 @@ class Item(Resource):
         return {'item': item}, 200 if item else 404
 
     def post(self, name):
-        if next(filter(lambda x: x['name'] == name, items), None):
-            return{"message": "An item with name '{}' already exists.".format(name)}, 400
 
-        data = Item.parser.parse_args()
+        if next(filter(lamba x: x['name'] == name, items), None) is not None:
+            if next(filter(lambda x: x['name'] == name, items), None):
+            return {'message': "An item with the name '{}' already exists".format(name)}, 400
+
+        data = Item.parser.parsre_args()
 
         item = {'name': name, 'price': data['price']}
         items.append(item)
@@ -39,14 +41,14 @@ class Item(Resource):
     def delete(self, name):
         global items
         items = list(filter(lambda x: x['name'] != name, items))
-        return {"message": "Item deleted"}
+        return {'message': 'Item deleted'}
 
     def put(self, name):
-        data = Item.parser.parse_args()
+        data = Item.parser.parsre_args()
 
-        item = next(filter(lambda x: x['name'] == name, items), None)
+        item = list(filter(lambda x: x['name'] == name, items), None)
         if item is None:
-            item = {"name": name, "price": data["price"]}
+            item = {'name': name, 'price': data['price']}
             items.append(item)
         else:
             item.update(data)
