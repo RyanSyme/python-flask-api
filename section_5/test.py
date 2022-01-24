@@ -7,13 +7,13 @@ cursor = connection.cursor()
 create_table = "CREATE TABLE users (id int, username text, password text)"
 cursor.execute(create_table)
 
-user = (1, "Ryan", "password")
+user = (1, 'ryan', 'asdf')
 insert_query = "INSERT INTO users VALUES (?, ?, ?)"
 cursor.execute(insert_query, user)
 
 users = [
-    (2, "Bob", "password"),
-    (3, "Andy", "password")
+    (2, 'john', 'asdf'),
+    (3, 'anne', 'password')
 ]
 cursor.executemany(insert_query, users)
 
